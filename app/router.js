@@ -14,5 +14,7 @@ module.exports = app => {
   router.post('access', '/access/login', controller.access.login);
   router.post('access', '/access/logout', controller.access.logout);
   router.post('access', '/access/verify', controller.access.verify);
-  // router.get('/', controller.home.index);
+  // 设置
+  router.get('settings', '/settings', controller.settings.index);
+  router.put('settings', '/settings', controller.settings.update);
 };
