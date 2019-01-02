@@ -4,7 +4,7 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
 
-  const SettingsSchema = new Schema({
+  const SettingSchema = new Schema({
     site_name: {
       type: String,
       required: true,
@@ -21,5 +21,5 @@ module.exports = app => {
     },
   });
 
-  return mongoose.model('Settings', SettingsSchema);
+  return mongoose.model('Setting', SettingSchema);
 };

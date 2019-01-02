@@ -15,6 +15,8 @@ module.exports = app => {
   router.post('access', '/access/logout', controller.access.logout);
   router.post('access', '/access/verify', controller.access.verify);
   // 设置
-  router.get('settings', '/settings', controller.settings.index);
-  router.put('settings', '/settings', controller.settings.update);
+  router.get('settings', '/settings', controller.setting.index);
+  router.put('settings', '/settings', controller.setting.update);
+  // 控制面板
+  router.get('statistics', '/statistics', controller.statistics.index);
 };
