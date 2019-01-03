@@ -6,7 +6,7 @@ class UserController extends Controller {
   async index() {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'user_level', 'user_status' ], [ 'user_name', 'user_email' ]);
+    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'user_level', 'user_status', 'user_name', 'user_email' ], [ 'user_name', 'user_email' ]);
     console.log('UserController=>index', conditions, params.limit, params.page);
     this.ctx.body = await this.ctx.service.user.index(conditions, params.limit, params.page);
     this.ctx.status = 200;

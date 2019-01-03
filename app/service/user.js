@@ -21,12 +21,20 @@ class UserService extends Service {
   }
   async destroy(_id) {
     console.log('UserService=>destroy', _id);
+    const item = await this.ctx.model.User.findOne({ _id });
+    if (item.user_level === 1) {
+      this.ctx.throw(403, '无法删除管理员');
+    }
     const result = await this.ctx.model.User.remove({ _id });
     await this.ctx.service.token.destroy(_id);
     return result;
   }
   async update(_id, params) {
     console.log('UserService=>update', _id, params);
+    const item = await this.ctx.model.User.findOne({ _id });
+    if (item.user_level === 1 && (parseInt(params.user_status, 10) !== item.user_status || parseInt(params.user_level, 10) !== item.user_level)) {
+      this.ctx.throw(403, '无法修改管理员的等级或状态');
+    }
     const result = await this.ctx.model.User.update({ _id }, { $set: params });
     if (this.ctx.request.body.user_password) {
       await this.ctx.service.token.destroy(_id);
