@@ -6,24 +6,32 @@ class StatisticsService extends Service {
     console.log('StatisticsService=>index');
     const result = {};
     // 获取文章统计
-    const post = {};
-    post[0] = await this.ctx.model.Post.count({ post_type: 0 });
-    post[1] = await this.ctx.model.Post.count({ post_type: 1 });
-    post[2] = await this.ctx.model.Post.count({ post_type: 2 });
-    result.post = post;
+    const postArray = [ 0, 1, 2 ];
+    result.post = [];
+    for (let i = 0, len = postArray.length; i < len; i++) {
+      result.post.push({
+        item: postArray[i],
+        count: await this.ctx.model.Post.count({ post_type: postArray[i] }),
+      });
+    }
     // 获取用户统计
-    const user = {};
-    user[1] = await this.ctx.model.User.count({ user_level: 1 });
-    user[2] = await this.ctx.model.User.count({ user_level: 2 });
-    user[3] = await this.ctx.model.User.count({ user_level: 3 });
-    result.user = user;
+    const userArray = [ 1, 2, 3 ];
+    result.user = [];
+    for (let i = 0, len = userArray.length; i < len; i++) {
+      result.user.push({
+        item: userArray[i],
+        count: await this.ctx.model.User.count({ user_level: userArray[i] }),
+      });
+    }
     // 获取评论统计
-    const comment = {};
-    comment[0] = await this.ctx.model.Comment.count({ comment_status: 0 });
-    comment[1] = await this.ctx.model.Comment.count({ comment_status: 1 });
-    comment[2] = await this.ctx.model.Comment.count({ comment_status: 2 });
-    comment[3] = await this.ctx.model.Comment.count({ comment_status: 3 });
-    result.comment = comment;
+    const commentArray = [ 0, 1, 2, 3 ];
+    result.comment = [];
+    for (let i = 0, len = commentArray.length; i < len; i++) {
+      result.comment.push({
+        item: commentArray[i],
+        count: await this.ctx.model.Comment.count({ comment_status: commentArray[i] }),
+      });
+    }
     return result;
   }
 }
