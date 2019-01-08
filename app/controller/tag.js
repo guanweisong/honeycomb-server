@@ -6,7 +6,7 @@ class TagController extends Controller {
   async index() {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '' ], [ 'tag_name' ]);
+    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'tag_name' ], [ 'tag_name' ]);
     console.log('TagController=>index', conditions, params.limit, params.page);
     this.ctx.body = await this.ctx.service.tag.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
