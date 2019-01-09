@@ -61,15 +61,15 @@ module.exports = app => {
       required: true,
     },
     post_cover: {
-      type: String,
-      max: 200,
+      type: Schema.Types.ObjectId,
+      ref: 'Media',
     },
     movie_time: {
       type: Date,
     },
     movie_photo: {
-      type: String,
-      max: 200,
+      type: Schema.Types.ObjectId,
+      ref: 'Media',
     },
     movie_name_en: {
       type: String,

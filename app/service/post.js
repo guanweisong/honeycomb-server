@@ -13,6 +13,8 @@ class PostService extends Service {
       .populate('movie_actor', 'tag_name')
       .populate('movie_style', 'tag_name')
       .populate('gallery_style', 'tag_name')
+      .populate('post_cover', 'media_url')
+      .populate('movie_photo', 'media_url')
       .limit(limit * 1)
       .skip((page * 1 - 1) * limit)
       .sort({ updated_at: -1 });
