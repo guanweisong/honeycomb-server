@@ -10,6 +10,11 @@ module.exports = app => {
       required: true,
       max: 20,
     },
+    category_title_en: {
+      type: String,
+      required: true,
+      max: 20,
+    },
     category_parent: {
       type: String,
       required: true,
