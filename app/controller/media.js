@@ -1,5 +1,4 @@
 'use strict';
-
 const Controller = require('egg').Controller;
 
 class MediaController extends Controller {

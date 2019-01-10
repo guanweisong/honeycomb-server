@@ -59,7 +59,6 @@ class MediaService extends Service {
     const result = await this.putObject({
       Bucket: this.config.cos.bucket,
       Region: this.config.cos.region,
-      ContentLength: stream.readableLength,
       Key: data.media_key,
       Body: stream,
     });
