@@ -6,7 +6,7 @@ class PostController extends Controller {
   async index() {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_type' ], [ 'post_title' ]);
+    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_type', 'post_category' ], [ 'post_title' ]);
     console.log('PostController=>index', conditions, params.limit, params.page);
     this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
