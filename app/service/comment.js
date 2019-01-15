@@ -1,10 +1,8 @@
 'use strict';
 const Service = require('egg').Service;
+const listToTree = require('list-to-tree-lite');
 
 class CommentService extends Service {
-  constructor(props) {
-    super(props);
-  }
   // 此列表用于中台管理
   async index(conditions, limit = 10, page = 1) {
     console.log('CommentService=>index', conditions, limit, page);
@@ -27,9 +25,13 @@ class CommentService extends Service {
     };
     const result = await this.ctx.model.Comment
       .find(conditions)
-      .sort({ updated_at: -1 });
+      .sort({ updated_at: -1 })
+      .lean();
     const data = {};
-    data.list = this.buildTree(result);
+    data.list = listToTree(result.map((item) => { return {...item, _id: item._id.toString()}}), {
+      idKey: '_id',
+      parentKey: 'comment_parent',
+    });
     data.total = await this.ctx.model.Comment.count(conditions);
     return data;
   }
@@ -48,10 +50,6 @@ class CommentService extends Service {
     console.log('CommentService=>update', _id, params);
     const result = await this.ctx.model.Comment.update({ _id }, { $set: params });
     return result;
-  }
-  // 将一维的扁平数组转换为多层级对象
-  buildTree(nodes) {
-    return nodes;
   }
 }
 

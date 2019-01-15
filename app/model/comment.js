@@ -45,7 +45,7 @@ module.exports = app => {
       enum: [ 0, 1, 2, 3 ],
       enumDesc: '0：待审核, 1：允许发布，2：垃圾评论，3：屏蔽',
       required: true,
-      default: 0,
+      default: 1,
     },
     comment_agent: {
       required: true,
