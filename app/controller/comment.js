@@ -11,6 +11,12 @@ class CommentController extends Controller {
     this.ctx.body = await this.ctx.service.comment.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
   }
+  async indexByPostId() {
+    const id = this.ctx.params.id;
+    console.log('CommentController=>indexByPostId', id);
+    this.ctx.body = await this.ctx.service.comment.indexByPostId(id);
+    this.ctx.status = 200;
+  }
   async create() {
     const params = this.ctx.request.body;
     params.comment_agent = this.ctx.request.header['user-agent'];

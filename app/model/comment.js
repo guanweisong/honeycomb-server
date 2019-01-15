@@ -15,6 +15,11 @@ module.exports = app => {
       type: String,
       max: 20,
     },
+    comment_email: {
+      required: true,
+      type: String,
+      max: 30,
+    },
     comment_ip: {
       required: true,
       type: String,

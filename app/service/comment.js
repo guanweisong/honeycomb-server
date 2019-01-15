@@ -2,6 +2,9 @@
 const Service = require('egg').Service;
 
 class CommentService extends Service {
+  constructor(props) {
+    super(props);
+  }
   // 此列表用于中台管理
   async index(conditions, limit = 10, page = 1) {
     console.log('CommentService=>index', conditions, limit, page);
@@ -16,15 +19,18 @@ class CommentService extends Service {
     return result;
   }
   // 此列表用于前台关联文章显示
-  async indexByPostId(_id) {
-    console.log('CommentService=>indexByPostId', _id);
-    // const conditions = {
-    //   comment_post: this.ctx.query._id,
-    // };
+  async indexByPostId(id) {
+    console.log('CommentService=>indexByPostId', id);
+    const conditions = {
+      comment_post: id,
+      comment_status: { $in: [ 1, 3 ] },
+    };
     const result = await this.ctx.model.Comment
-      .find({ _id })
+      .find(conditions)
       .sort({ updated_at: -1 });
-    const data = this.sonsTree(result, '0');
+    const data = {};
+    data.list = this.buildTree(result);
+    data.total = await this.ctx.model.Comment.count(conditions);
     return data;
   }
   async create(params) {
@@ -43,21 +49,9 @@ class CommentService extends Service {
     const result = await this.ctx.model.Comment.update({ _id }, { $set: params });
     return result;
   }
-  // 子孙树，获取某个ID下的嵌套评论
-  sonsTree(arr, id) {
-    const temp = [],
-      lev = 0;
-    const forFn = (arr, id, lev) => {
-      for (const value of arr) {
-        if (value.comment_parent == id) {
-          value.deep_path = lev;
-          temp.push(value);
-          forFn(arr, value._id, lev + 1);
-        }
-      }
-    };
-    forFn(arr, id, lev);
-    return temp;
+  // 将一维的扁平数组转换为多层级对象
+  buildTree(nodes) {
+    return nodes;
   }
 }
 
