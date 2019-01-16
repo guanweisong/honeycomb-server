@@ -7,7 +7,7 @@ class PostService extends Service {
   async index(conditions, limit = 10, page = 1) {
     console.log('PostService=>index', conditions, limit, page);
     const result = {};
-    const list = await this.ctx.model.Post
+    let list = await this.ctx.model.Post
       .find(conditions)
       .populate('post_category', 'category_title')
       .populate('post_author', 'user_name')
@@ -21,9 +21,11 @@ class PostService extends Service {
       .skip((page * 1 - 1) * limit)
       .sort({ updated_at: -1 })
       .lean();
-    result.list = list.map(m => {
-      return {...m, post_content: converter.makeHtml(m.post_content)}
-    });
+    for (const item of list) {
+      item.post_content = converter.makeHtml(item.post_content);
+      item.comment_count = await this.ctx.model.Comment.count({ comment_post: item._id });
+    }
+    result.list = list;
     result.total = await this.ctx.model.Post.count(conditions);
     return result;
   }

@@ -1,6 +1,7 @@
 'use strict';
 const Service = require('egg').Service;
 const listToTree = require('list-to-tree-lite');
+const md5 = require('md5');
 
 class CommentService extends Service {
   // 此列表用于中台管理
@@ -28,7 +29,9 @@ class CommentService extends Service {
       .sort({ updated_at: -1 })
       .lean();
     const data = {};
-    data.list = listToTree(result.map((item) => { return {...item, _id: item._id.toString()}}), {
+    data.list = listToTree(result.map((item) => {
+      return {...item, _id: item._id.toString(), comment_avatar: `//www.gravatar.com/avatar/${md5(item.comment_email.trim().toLowerCase())}?s=48&d=identicon`}
+    }), {
       idKey: '_id',
       parentKey: 'comment_parent',
     });
