@@ -1,11 +1,13 @@
 'use strict';
 const Service = require('egg').Service;
+const showdown = require('showdown');
+const converter = new showdown.Converter();
 
 class PostService extends Service {
   async index(conditions, limit = 10, page = 1) {
     console.log('PostService=>index', conditions, limit, page);
     const result = {};
-    result.list = await this.ctx.model.Post
+    const list = await this.ctx.model.Post
       .find(conditions)
       .populate('post_category', 'category_title')
       .populate('post_author', 'user_name')
@@ -17,7 +19,11 @@ class PostService extends Service {
       .populate('movie_photo', 'media_url')
       .limit(limit * 1)
       .skip((page * 1 - 1) * limit)
-      .sort({ updated_at: -1 });
+      .sort({ updated_at: -1 })
+      .lean();
+    result.list = list.map(m => {
+      return {...m, post_content: converter.makeHtml(m.post_content)}
+    });
     result.total = await this.ctx.model.Post.count(conditions);
     return result;
   }
