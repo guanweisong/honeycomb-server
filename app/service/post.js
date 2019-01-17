@@ -23,7 +23,7 @@ class PostService extends Service {
       .lean();
     for (const item of list) {
       item.post_content = converter.makeHtml(item.post_content);
-      item.comment_count = await this.ctx.model.Comment.count({ comment_post: item._id });
+      item.comment_count = await this.ctx.model.Comment.count({ comment_post: item._id, comment_status: { $in: [ 1, 3 ] } });
     }
     result.list = list;
     result.total = await this.ctx.model.Post.count(conditions);

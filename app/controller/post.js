@@ -6,7 +6,15 @@ class PostController extends Controller {
   async index() {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_type', 'post_category' ], [ 'post_title' ]);
+    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_author', 'post_type', 'post_category' ], [ 'post_title' ]);
+    if (params.post_tag) {
+      conditions.$or = [
+        { gallery_style: params.post_tag },
+        { movie_actor: params.post_tag },
+        { movie_style: params.post_tag },
+        { movie_director: params.post_tag },
+      ];
+    }
     console.log('PostController=>index', conditions, params.limit, params.page);
     this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
