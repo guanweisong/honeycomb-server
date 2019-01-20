@@ -1,7 +1,11 @@
 'use strict';
 const Service = require('egg').Service;
 const listToTree = require('list-to-tree-lite');
+const FastScanner = require('fastscan');
 const md5 = require('md5');
+const words = require('../utils/censorWords');
+
+const scanner = new FastScanner(words);
 
 class CommentService extends Service {
   // 此列表用于中台管理
@@ -40,6 +44,10 @@ class CommentService extends Service {
   }
   async create(params) {
     console.log('CommentService=>create', params);
+    const offWords = scanner.search(params.comment_content);
+    if (offWords.length > 0) {
+      throw new Error('评论内容包含敏感词，请检查后再发布');
+    }
     const model = new this.ctx.model.Comment(params);
     const result = await model.save();
     return result;

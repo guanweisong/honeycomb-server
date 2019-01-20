@@ -7,15 +7,39 @@ class PostController extends Controller {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_author', 'post_type', 'post_category' ], [ 'post_title' ]);
-    if (params.post_tag) {
-      conditions.$or = [
-        { gallery_style: params.post_tag },
-        { movie_actor: params.post_tag },
-        { movie_style: params.post_tag },
-        { movie_director: params.post_tag },
-      ];
-    }
     console.log('PostController=>index', conditions, params.limit, params.page);
+    if (params.tag_name) {
+      const tag = await this.ctx.service.tag.index({ tag_name: params.tag_name });
+      if (tag.total !== 0) {
+        const id = tag.list[0]._id;
+        conditions.$or = [
+          { gallery_style: id },
+          { movie_actor: id },
+          { movie_style: id },
+          { movie_director: id },
+        ];
+      } else {
+        this.ctx.body = {
+          list: [],
+          total: 0,
+        };
+        this.ctx.status = 200;
+        return;
+      }
+    }
+    if (params.user_name) {
+      const user = await this.ctx.service.user.index({ user_name: params.user_name });
+      if (user.total !== 0) {
+        conditions.post_author = user.list[0]._id;
+      } else {
+        this.ctx.body = {
+          list: [],
+          total: 0,
+        };
+        this.ctx.status = 200;
+        return;
+      }
+    }
     this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
   }
