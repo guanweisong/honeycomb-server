@@ -20,10 +20,6 @@ module.exports = app => {
       max: 100,
       required: true,
     },
-    site_statistics: {
-      type: String,
-      max: 500,
-    },
   });
 
   return mongoose.model('Setting', SettingSchema);

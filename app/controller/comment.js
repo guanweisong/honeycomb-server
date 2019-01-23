@@ -25,12 +25,6 @@ class CommentController extends Controller {
     this.ctx.body = await this.ctx.service.comment.create(params);
     this.ctx.status = 201;
   }
-  async destroy() {
-    const id = this.ctx.params.id;
-    console.log('CommentController=>destroy', id);
-    this.ctx.body = await this.ctx.service.comment.destroy(id);
-    this.ctx.status = 204;
-  }
   async update() {
     const id = this.ctx.params.id;
     const params = this.ctx.request.body;
