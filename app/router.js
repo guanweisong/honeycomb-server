@@ -47,7 +47,7 @@ module.exports = app => {
   router.post('access', '/access/logout', controller.access.logout);
   router.post('access', '/access/verify', controller.access.verify);
   // 设置
-  router.get('settings', '/settings', roleAuthority([ 1 ]), controller.setting.index);
+  router.get('settings', '/settings', controller.setting.index);
   router.put('settings', '/settings', roleAuthority([ 1 ]), controller.setting.update);
   // 统计
   router.get('statistics', '/statistics', controller.statistics.index);
