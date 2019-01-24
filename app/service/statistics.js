@@ -15,7 +15,7 @@ class StatisticsService extends Service {
       });
     }
     // 获取用户类型统计
-    const userArray = [ 1, 2, 3 ];
+    const userArray = [ 1, 2 ];
     result.userType = [];
     for (let i = 0, len = userArray.length; i < len; i++) {
       result.userType.push({

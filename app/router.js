@@ -15,19 +15,19 @@ module.exports = app => {
   router.patch('links', '/links/:id', roleAuthority([ 1, 2 ]), controller.link.update);
   // 文章分类
   router.get('categories', '/categories', controller.category.index);
-  router.post('categories', '/categories', roleAuthority([ 1, 2, 3 ]), controller.category.create);
+  router.post('categories', '/categories', roleAuthority([ 1, 2 ]), controller.category.create);
   router.delete('categories', '/categories/:id', roleAuthority([ 1, 2 ]), controller.category.destroy);
   router.patch('categories', '/categories/:id', roleAuthority([ 1, 2 ]), controller.category.update);
   // 页面
   router.get('pages', '/pages', controller.page.index);
-  router.post('pages', '/pages', roleAuthority([ 1, 2, 3 ]), controller.page.create);
-  router.delete('pages', '/pages/:id', roleAuthority([ 1, 2 ]), controller.page.destroy);
-  router.patch('pages', '/pages/:id', roleAuthority([ 1, 2 ]), controller.page.update);
+  router.post('pages', '/pages', roleAuthority([ 1 ]), controller.page.create);
+  router.delete('pages', '/pages/:id', roleAuthority([ 1 ]), controller.page.destroy);
+  router.patch('pages', '/pages/:id', roleAuthority([ 1 ]), controller.page.update);
   // 文章
   router.get('posts', '/posts', controller.post.index);
   router.post('posts', '/posts', roleAuthority([ 1, 2, 3 ]), controller.post.create);
-  router.delete('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.destroy);
-  router.patch('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.update);
+  router.delete('posts', '/posts/:id', roleAuthority([ 1, 2, 3 ]), controller.post.destroy);
+  router.patch('posts', '/posts/:id', roleAuthority([ 1, 2, 3 ]), controller.post.update);
   // 标签
   router.get('tags', '/tags', controller.tag.index);
   router.post('tags', '/tags', roleAuthority([ 1, 2, 3 ]), controller.tag.create);

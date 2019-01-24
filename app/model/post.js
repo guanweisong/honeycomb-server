@@ -37,8 +37,8 @@ module.exports = app => {
     },
     post_status: {
       type: Number,
-      enum: [ 0, 1 ],
-      enumDesc: '0：禁用, 1：启用',
+      enum: [ 0, 1, 2],
+      enumDesc: '0：已发布, 1：草稿, 2: 待审核',
       default: 1,
       required: true,
     },
