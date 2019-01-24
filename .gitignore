@@ -7,7 +7,6 @@ yarn.lock
 coverage/
 .idea/
 run/
-config/config.default.js
 .DS_Store
 *.sw*
 *.un~
