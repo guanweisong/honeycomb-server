@@ -6,7 +6,7 @@ class LinkController extends Controller {
   async index() {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'link_status' ], [ 'link_url', 'link_name' ]);
+    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'link_status', 'link_url' ], [ 'link_url', 'link_name' ]);
     console.log('LinkController=>index', conditions, params.limit, params.page);
     this.ctx.body = await this.ctx.service.link.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
