@@ -67,10 +67,6 @@ module.exports = app => {
     movie_time: {
       type: Date,
     },
-    movie_photo: {
-      type: Schema.Types.ObjectId,
-      ref: 'Media',
-    },
     movie_name_en: {
       type: String,
       max: 20,
