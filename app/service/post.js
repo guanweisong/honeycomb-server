@@ -1,5 +1,6 @@
 'use strict';
 const Service = require('egg').Service;
+const moment = require('moment');
 const showdown = require('showdown');
 const converter = new showdown.Converter();
 
@@ -24,6 +25,9 @@ class PostService extends Service {
     for (const item of list) {
       item.post_content = converter.makeHtml(item.post_content);
       item.comment_count = await this.ctx.model.Comment.count({ comment_post: item._id, comment_status: { $in: [ 1, 3 ] } });
+      if (item.post_type === 1) {
+        item.post_title = `${item.post_title} ${item.movie_name_en} (${moment(item.movie_time).format('YYYY')})`;
+      }
     }
     result.list = list;
     result.total = await this.ctx.model.Post.count(conditions);
