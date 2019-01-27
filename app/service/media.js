@@ -63,6 +63,7 @@ class MediaService extends Service {
       Body: stream,
     });
     data.media_url = result.Location;
+    data.created_at = Date.now();
     const model = new this.ctx.model.Media(data);
     return await model.save();
   }

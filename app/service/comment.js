@@ -48,7 +48,7 @@ class CommentService extends Service {
     if (offWords.length > 0) {
       throw new Error('评论内容包含敏感词，请检查后再发布');
     }
-    const model = new this.ctx.model.Comment(params);
+    const model = new this.ctx.model.Comment({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

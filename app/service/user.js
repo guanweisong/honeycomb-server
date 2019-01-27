@@ -15,7 +15,7 @@ class UserService extends Service {
   }
   async create(params) {
     console.log('UserService=>create', params);
-    const model = new this.ctx.model.User(params);
+    const model = new this.ctx.model.User({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

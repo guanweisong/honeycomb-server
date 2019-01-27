@@ -31,7 +31,7 @@ class PostService extends Service {
   }
   async create(params) {
     console.log('PostService=>create', params);
-    const model = new this.ctx.model.Post(params);
+    const model = new this.ctx.model.Post({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

@@ -15,7 +15,7 @@ class TagService extends Service {
   }
   async create(params) {
     console.log('TagService=>create', params);
-    const model = new this.ctx.model.Tag(params);
+    const model = new this.ctx.model.Tag({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

@@ -15,7 +15,7 @@ class TokenService extends Service {
     const conditions = {};
     !!userId && (conditions.user_id = userId);
     !!token && (conditions.token_content = token);
-    conditions.created_at = Date.now(); // 补丁：该处model生成的时间会是服务端启动时间，造成bug
+    conditions.created_at = Date.now();
     const model = new this.ctx.model.Token(conditions);
     const result = await model.save();
     return result;

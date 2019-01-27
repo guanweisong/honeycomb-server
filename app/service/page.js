@@ -19,7 +19,7 @@ class PageService extends Service {
   }
   async create(params) {
     console.log('PageService=>create');
-    const model = new this.ctx.model.Page(params);
+    const model = new this.ctx.model.Page({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

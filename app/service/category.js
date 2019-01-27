@@ -15,7 +15,7 @@ class CategoryService extends Service {
   }
   async create(params) {
     console.log('CategoryService=>create', params);
-    const model = new this.ctx.model.Category(params);
+    const model = new this.ctx.model.Category({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

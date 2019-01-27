@@ -15,7 +15,7 @@ class LinkService extends Service {
   }
   async create(params) {
     console.log('LinkService=>create', params);
-    const model = new this.ctx.model.Link(params);
+    const model = new this.ctx.model.Link({...params, created_at: Date.now()});
     const result = await model.save();
     return result;
   }

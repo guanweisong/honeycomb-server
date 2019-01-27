@@ -25,22 +25,22 @@ module.exports = app => {
   router.patch('pages', '/pages/:id', roleAuthority([ 1 ]), controller.page.update);
   // 文章
   router.get('posts', '/posts', controller.post.index);
-  router.post('posts', '/posts', roleAuthority([ 1, 2, 3 ]), controller.post.create);
-  router.delete('posts', '/posts/:id', roleAuthority([ 1, 2, 3 ]), controller.post.destroy);
-  router.patch('posts', '/posts/:id', roleAuthority([ 1, 2, 3 ]), controller.post.update);
+  router.post('posts', '/posts', roleAuthority([ 1, 2 ]), controller.post.create);
+  router.delete('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.destroy);
+  router.patch('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.update);
   // 标签
   router.get('tags', '/tags', controller.tag.index);
-  router.post('tags', '/tags', roleAuthority([ 1, 2, 3 ]), controller.tag.create);
-  router.delete('tags', '/tags/:id', roleAuthority([ 1, 2, 3 ]), controller.tag.destroy);
-  router.patch('tags', '/tags/:id', roleAuthority([ 1, 2, 3 ]), controller.tag.update);
+  router.post('tags', '/tags', roleAuthority([ 1, 2 ]), controller.tag.create);
+  router.delete('tags', '/tags/:id', roleAuthority([ 1, 2 ]), controller.tag.destroy);
+  router.patch('tags', '/tags/:id', roleAuthority([ 1, 2 ]), controller.tag.update);
   // 评论
   router.get('comments', '/comments', controller.comment.index);
   router.get('comments', '/comments/:id', controller.comment.indexByPostId);
   router.post('comments', '/comments', controller.comment.create);
   router.patch('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.update);
   // 媒体
-  router.get('media', '/media', roleAuthority([ 1, 2, 3 ]), controller.media.index);
-  router.post('media', '/media', roleAuthority([ 1, 2, 3 ]), controller.media.create);
+  router.get('media', '/media', roleAuthority([ 1, 2 ]), controller.media.index);
+  router.post('media', '/media', roleAuthority([ 1, 2 ]), controller.media.create);
   router.delete('media', '/media/:id', roleAuthority([ 1, 2 ]), controller.media.destroy);
   // 权限认证
   router.post('access', '/access/login', controller.access.login);
