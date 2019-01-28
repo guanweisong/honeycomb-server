@@ -27,6 +27,14 @@ class PostService extends Service {
     }
     result.list = list;
     result.total = await this.ctx.model.Post.count(conditions);
+    if (conditions._id) {
+      this.ctx.model.Post.update(conditions, {$inc: {post_views: 1}}, {upsert: true}, (err,data) => {
+        if(err) {
+          return console.log(err);
+        }
+        console.log(data);
+      })
+    }
     return result;
   }
   async create(params) {
