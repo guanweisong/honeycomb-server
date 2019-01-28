@@ -37,6 +37,7 @@ module.exports = app => {
   router.get('comments', '/comments', controller.comment.index);
   router.get('comments', '/comments/:id', controller.comment.indexByPostId);
   router.post('comments', '/comments', controller.comment.create);
+  router.delete('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.destroy);
   router.patch('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.update);
   // 媒体
   router.get('media', '/media', roleAuthority([ 1, 2 ]), controller.media.index);

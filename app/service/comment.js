@@ -52,6 +52,11 @@ class CommentService extends Service {
     const result = await model.save();
     return result;
   }
+  async destroy(_id) {
+    console.log('CommentService=>destroy', _id);
+    const result = await this.ctx.model.Comment.remove({ _id });
+    return result;
+  }
   async update(_id, params) {
     console.log('CommentService=>update', _id, params);
     const result = await this.ctx.model.Comment.update({ _id }, { $set: params });
