@@ -20,7 +20,7 @@ class CommentController extends Controller {
   async create() {
     const params = this.ctx.request.body;
     params.comment_agent = this.ctx.request.header['user-agent'];
-    params.comment_ip = '127.0.0.1'; // TO DO
+    params.comment_ip = this.ctx.ip;
     console.log('CommentController=>create', params);
     this.ctx.body = await this.ctx.service.comment.create(params);
     this.ctx.status = 201;
