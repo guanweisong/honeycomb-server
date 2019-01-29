@@ -27,7 +27,7 @@ module.exports = appInfo => {
 
   config.jwt = {
     secret: '!o5sv&MXoNmiW@L@IkAR',
-    expires: 30 * 60, // unit: seconds
+    expires: 2 * 60 * 60, // unit: seconds
   };
 
   config.cos = {
