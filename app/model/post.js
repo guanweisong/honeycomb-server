@@ -1,4 +1,5 @@
 'use strict';
+const random = require('mongoose-simple-random');
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -106,6 +107,8 @@ module.exports = app => {
     versionKey: false,
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   });
+
+  PostSchema.plugin(random);
 
   return mongoose.model('Post', PostSchema);
 };

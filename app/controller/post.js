@@ -43,6 +43,13 @@ class PostController extends Controller {
     this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
   }
+  async indexRandomPostByCategoryId() {
+    const post_category = this.ctx.query.post_category;
+    const number = this.ctx.query.number;
+    console.log('PostController=>indexRandomPostByCategoryId', post_category);
+    this.ctx.body = await this.ctx.service.post.indexRandomPostByCategoryId(post_category, number);
+    this.ctx.status = 200;
+  }
   async create() {
     const params = this.ctx.request.body;
     console.log('PostController=>create', params);

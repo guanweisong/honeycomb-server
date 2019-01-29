@@ -1,6 +1,5 @@
 'use strict';
 const Service = require('egg').Service;
-const moment = require('moment');
 const showdown = require('showdown');
 const converter = new showdown.Converter();
 
@@ -33,9 +32,30 @@ class PostService extends Service {
           return console.log(err);
         }
         console.log(data);
-      })
+      });
     }
     return result;
+  }
+  async indexRandomPostByCategoryId(post_category, number = 5) {
+    console.log('PostService=>indexRandomPostByCategoryId', post_category, number);
+    const query = () => {
+      return new Promise((resolve, reject) => {
+        var filter = { post_category };
+        var fields = { post_title: 1 };
+        var options = { limit: number };
+        this.ctx.model.Post.findRandom(filter, fields, options, function(err, data) {
+          if (err) {
+            reject({
+              code: 500,
+              body: err,
+            });
+          } else {
+            resolve(data);
+          }
+        });
+      });
+    };
+    return await query();
   }
   async create(params) {
     console.log('PostService=>create', params);
