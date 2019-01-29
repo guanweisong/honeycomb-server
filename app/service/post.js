@@ -18,7 +18,7 @@ class PostService extends Service {
       .populate('post_cover', 'media_url')
       .limit(limit * 1)
       .skip((page * 1 - 1) * limit)
-      .sort({ updated_at: -1 })
+      .sort({ created_at: -1 })
       .lean();
     for (const item of list) {
       item.post_content = converter.makeHtml(item.post_content);
