@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 const RateLimiter = require('limiter').RateLimiter;
-const rateLimiter = new RateLimiter(1, 'minute', true);
+const rateLimiter = new RateLimiter(60, 'hour', true);
 
 class CommentController extends Controller {
   async index() {
@@ -28,7 +28,7 @@ class CommentController extends Controller {
       this.ctx.body = await this.ctx.service.comment.create(params);
       this.ctx.status = 201;
     } else {
-      this.ctx.body = { error: '发布评论频率太快，请1分钟后重试' };
+      this.ctx.body = { error: '发布评论频率太快，请1小时后重试' };
       this.ctx.status = 403;
     }
   }

@@ -3,6 +3,7 @@
 module.exports = app => {
   const { router, controller } = app;
   const roleAuthority = app.middleware.roleAuthority;
+  const captcha = app.middleware.captcha;
   // 用户
   router.get('users', '/users', controller.user.index);
   router.post('users', '/users', roleAuthority([ 1 ]), controller.user.create);
@@ -37,7 +38,7 @@ module.exports = app => {
   // 评论
   router.get('comments', '/comments', controller.comment.index);
   router.get('comments', '/comments/:id', controller.comment.indexByPostId);
-  router.post('comments', '/comments', controller.comment.create);
+  router.post('comments', '/comments', captcha(), controller.comment.create);
   router.delete('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.destroy);
   router.patch('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.update);
   // 媒体
@@ -45,7 +46,7 @@ module.exports = app => {
   router.post('media', '/media', roleAuthority([ 1, 2 ]), controller.media.create);
   router.delete('media', '/media/:id', roleAuthority([ 1, 2 ]), controller.media.destroy);
   // 权限认证
-  router.post('access', '/access/login', controller.access.login);
+  router.post('access', '/access/login', captcha(), controller.access.login);
   router.post('access', '/access/logout', controller.access.logout);
   router.post('access', '/access/verify', controller.access.verify);
   // 设置
