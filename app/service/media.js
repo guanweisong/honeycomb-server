@@ -55,7 +55,8 @@ class MediaService extends Service {
     data.media_name = stream.filename;
     data.media_size = stream.readableLength;
     data.media_type = stream.mimeType;
-    data.media_key = `${moment().format('YYYY/MM/DD/HHmmssSSS')}.${stream.filename.split('.')[1]}`;
+    const filenameArray = stream.filename.split('.');
+    data.media_key = `${moment().format('YYYY/MM/DD/HHmmssSSS')}.${filenameArray[filenameArray.length - 1]}`;
     const result = await this.putObject({
       Bucket: this.config.cos.bucket,
       Region: this.config.cos.region,
