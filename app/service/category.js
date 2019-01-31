@@ -25,7 +25,7 @@ class CategoryService extends Service {
     let son = await this.ctx.model.Category.find({}).lean();
     son = this.sonsTree(son, _id || '0');
     if (son.length > 0) {
-      throw new Error('被删分类包含子分类，无法删除');
+      this.ctx.throw(403, '被删分类包含子分类，无法删除');
     } else {
       const result = await this.ctx.model.Category.remove({ _id });
       return result;
