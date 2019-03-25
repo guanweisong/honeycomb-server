@@ -27,6 +27,7 @@ module.exports = app => {
   // 文章
   router.get('posts', '/posts', controller.post.index);
   router.get('posts', '/posts/indexRandomPostByCategoryId', controller.post.indexRandomPostByCategoryId);
+  router.get('posts', '/posts/indexPostByCategoryId', controller.post.indexPostByCategoryId);
   router.post('posts', '/posts', roleAuthority([ 1, 2 ]), controller.post.create);
   router.delete('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.destroy);
   router.patch('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.update);

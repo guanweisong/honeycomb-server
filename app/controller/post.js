@@ -43,6 +43,20 @@ class PostController extends Controller {
     this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
     this.ctx.status = 200;
   }
+  async indexPostByCategoryId() {
+    const params = this.ctx.query;
+    const conditions = {};
+    // 查询当前分类子孙树
+    const categoryAll = await this.ctx.service.category.index(params._id);
+    const ids = [ params._id ];
+    categoryAll.son.forEach(item => {
+      ids.push(item._id);
+    });
+    conditions.post_category = { $in: ids };
+    console.log('PostController=>indexPostByCategoryId', conditions, params.limit, params.page);
+    this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
+    this.ctx.status = 200;
+  }
   async indexRandomPostByCategoryId() {
     const post_category = this.ctx.query.post_category;
     const number = this.ctx.query.number;
