@@ -8,27 +8,47 @@ class TagController extends Controller {
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'tag_name' ], [ 'tag_name' ]);
     console.log('TagController=>index', conditions, params.limit, params.page);
-    this.ctx.body = await this.ctx.service.tag.index(conditions, params.limit, params.page);
-    this.ctx.status = 200;
+    try {
+      this.ctx.body = await this.ctx.service.tag.index(conditions, params.limit, params.page);
+      this.ctx.status = 200;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '读取标签列表失败');
+    }
   }
   async create() {
     const params = this.ctx.request.body;
     console.log('TagController=>create', params);
-    this.ctx.body = await this.ctx.service.tag.create(params);
-    this.ctx.status = 201;
+    try {
+      this.ctx.body = await this.ctx.service.tag.create(params);
+      this.ctx.status = 201;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '创建标签失败');
+    }
   }
   async destroy() {
     const id = this.ctx.params.id;
     console.log('TagController=>destroy', id);
-    this.ctx.body = await this.ctx.service.tag.destroy(id);
-    this.ctx.status = 204;
+    try {
+      this.ctx.body = await this.ctx.service.tag.destroy(id);
+      this.ctx.status = 204;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '删除标签失败');
+    }
   }
   async update() {
     const id = this.ctx.params.id;
     const params = this.ctx.request.body;
     console.log('TagController=>update', id, params);
-    this.ctx.body = await this.ctx.service.tag.update(id, params);
-    this.ctx.status = 201;
+    try {
+      this.ctx.body = await this.ctx.service.tag.update(id, params);
+      this.ctx.status = 201;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '更新标签失败');
+    }
   }
 }
 

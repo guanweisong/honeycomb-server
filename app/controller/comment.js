@@ -10,14 +10,24 @@ class CommentController extends Controller {
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'comment_status' ], [ 'comment_ip', 'comment_author', 'comment_content' ]);
     console.log('CommentController=>index', conditions, params.limit, params.page);
-    this.ctx.body = await this.ctx.service.comment.index(conditions, params.limit, params.page);
-    this.ctx.status = 200;
+    try {
+      this.ctx.body = await this.ctx.service.comment.index(conditions, params.limit, params.page);
+      this.ctx.status = 200;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '读取评论列表失败');
+    }
   }
   async indexByPostId() {
     const id = this.ctx.params.id;
     console.log('CommentController=>indexByPostId', id);
-    this.ctx.body = await this.ctx.service.comment.indexByPostId(id);
-    this.ctx.status = 200;
+    try {
+      this.ctx.body = await this.ctx.service.comment.indexByPostId(id);
+      this.ctx.status = 200;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '根据文章ID读取评论列表失败');
+    }
   }
   async create() {
     const params = this.ctx.request.body;
@@ -25,8 +35,13 @@ class CommentController extends Controller {
     params.comment_ip = this.ctx.ip;
     console.log('CommentController=>create', params);
     if (rateLimiter.tryRemoveTokens(1)) {
-      this.ctx.body = await this.ctx.service.comment.create(params);
-      this.ctx.status = 201;
+      try {
+        this.ctx.body = await this.ctx.service.comment.create(params);
+        this.ctx.status = 201;
+      } catch (err) {
+        this.ctx.logger.error(new Error(err));
+        this.ctx.throw(500, '创建评论失败');
+      }
     } else {
       this.ctx.body = { error: '发布评论频率太快，请1小时后重试' };
       this.ctx.status = 403;
@@ -35,15 +50,25 @@ class CommentController extends Controller {
   async destroy() {
     const id = this.ctx.params.id;
     console.log('CommentController=>destroy', id);
-    this.ctx.body = await this.ctx.service.comment.destroy(id);
-    this.ctx.status = 204;
+    try {
+      this.ctx.body = await this.ctx.service.comment.destroy(id);
+      this.ctx.status = 204;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '删除评论失败');
+    }
   }
   async update() {
     const id = this.ctx.params.id;
     const params = this.ctx.request.body;
     console.log('CommentController=>update', id, params);
-    this.ctx.body = await this.ctx.service.comment.update(id, params);
-    this.ctx.status = 201;
+    try {
+      this.ctx.body = await this.ctx.service.comment.update(id, params);
+      this.ctx.status = 201;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '更新评论失败');
+    }
   }
 }
 

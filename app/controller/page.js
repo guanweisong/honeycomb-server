@@ -8,27 +8,47 @@ class PageController extends Controller {
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'page_status' ], [ 'page_title' ]);
     console.log('PageController=>index', conditions, params.limit, params.page);
-    this.ctx.body = await this.ctx.service.page.index(conditions, params.limit, params.page);
-    this.ctx.status = 200;
+    try {
+      this.ctx.body = await this.ctx.service.page.index(conditions, params.limit, params.page);
+      this.ctx.status = 200;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '读取页面列表失败');
+    }
   }
   async create() {
     const params = this.ctx.request.body;
     console.log('PageController=>create', params);
-    this.ctx.body = await this.ctx.service.page.create(params);
-    this.ctx.status = 201;
+    try {
+      this.ctx.body = await this.ctx.service.page.create(params);
+      this.ctx.status = 201;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '创建页面失败');
+    }
   }
   async destroy() {
     const id = this.ctx.params.id;
     console.log('PageController=>destroy', id);
-    this.ctx.body = await this.ctx.service.page.destroy(id);
-    this.ctx.status = 204;
+    try {
+      this.ctx.body = await this.ctx.service.page.destroy(id);
+      this.ctx.status = 204;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '删除页面失败');
+    }
   }
   async update() {
     const id = this.ctx.params.id;
     const params = this.ctx.request.body;
     console.log('PageController=>update', id, params);
-    this.ctx.body = await this.ctx.service.page.update(id, params);
-    this.ctx.status = 201;
+    try {
+      this.ctx.body = await this.ctx.service.page.update(id, params);
+      this.ctx.status = 201;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '更新页面失败');
+    }
   }
 }
 

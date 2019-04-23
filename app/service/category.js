@@ -4,37 +4,57 @@ const Service = require('egg').Service;
 class CategoryService extends Service {
   async index(id) {
     console.log('CategoryService=>index');
-    const result = await this.ctx.model.Category
-      .find({})
-      .lean()
-      .sort({ updated_at: -1 });
-    const data = {};
-    data.son = this.sonsTree(result, id || '0');
-    data.family = this.familyTree(result, id || '0');
-    return data;
+    try {
+      const result = await this.ctx.model.Category
+        .find({})
+        .lean()
+        .sort({updated_at: -1});
+      const data = {};
+      data.son = this.sonsTree(result, id || '0');
+      data.family = this.familyTree(result, id || '0');
+      return data;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '读取分类列表失败');
+    }
   }
   async create(params) {
     console.log('CategoryService=>create', params);
     const model = new this.ctx.model.Category({...params, created_at: Date.now()});
-    const result = await model.save();
-    return result;
+    try {
+      const result = await model.save();
+      return result;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '创建分类失败');
+    }
   }
   async destroy(_id) {
     console.log('CategoryService=>destroy', _id);
     // 查询若其含有子孙树，则禁止删除
-    let son = await this.ctx.model.Category.find({}).lean();
-    son = this.sonsTree(son, _id || '0');
-    if (son.length > 0) {
-      this.ctx.throw(403, '被删分类包含子分类，无法删除');
-    } else {
-      const result = await this.ctx.model.Category.remove({ _id });
-      return result;
+    try {
+      let son = await this.ctx.model.Category.find({}).lean();
+      son = this.sonsTree(son, _id || '0');
+      if (son.length > 0) {
+        this.ctx.throw(403, '被删分类包含子分类，无法删除');
+      } else {
+        const result = await this.ctx.model.Category.remove({_id});
+        return result;
+      }
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '删除分类失败');
     }
   }
   async update(_id, params) {
     console.log('CategoryService=>update', _id, params);
-    const result = await this.ctx.model.Category.update({ _id }, { $set: params });
-    return result;
+    try {
+      const result = await this.ctx.model.Category.update({_id}, {$set: params});
+      return result;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '更新分类失败');
+    }
   }
   // 家族树，根据子节点寻找家族节点
   familyTree(arr, pid) {

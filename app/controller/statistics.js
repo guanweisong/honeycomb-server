@@ -5,8 +5,13 @@ const Controller = require('egg').Controller;
 class StatisticsController extends Controller {
   async index() {
     console.log('StatisticsController=>index');
-    this.ctx.body = await this.ctx.service.statistics.index();
-    this.ctx.status = 200;
+    try {
+      this.ctx.body = await this.ctx.service.statistics.index();
+      this.ctx.status = 200;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '获取统计信息失败');
+    }
   }
 }
 

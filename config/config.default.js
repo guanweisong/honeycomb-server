@@ -44,5 +44,9 @@ module.exports = appInfo => {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
 
+  config.multipart = {
+    mode: 'file',
+  };
+
   return config;
 };

@@ -18,12 +18,24 @@ module.exports = app => {
       type: String,
       required: true,
     },
+    media_url_720p: {
+      type: String,
+    },
+    media_url_360p: {
+      type: String,
+    },
     media_size: {
       type: Number,
     },
     media_key: {
       type: String,
       required: true,
+    },
+    media_key_720p: {
+      type: String,
+    },
+    media_key_360p: {
+      type: String,
     },
     created_at: {
       type: Date,

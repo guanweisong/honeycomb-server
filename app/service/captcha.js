@@ -4,12 +4,17 @@ const Service = require('egg').Service;
 class CaptchaService extends Service {
   async verify(params) {
     console.log('CaptchaService=>verify');
-    const result = await this.app.curl('https://ssl.captcha.qq.com/ticket/verify', {
-      method: 'GET',
-      dataType: 'json',
-      data: params,
-    });
-    return result;
+    try {
+      const result = await this.app.curl('https://ssl.captcha.qq.com/ticket/verify', {
+        method: 'GET',
+        dataType: 'json',
+        data: params,
+      });
+      return result;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, '验证码系统错误');
+    }
   }
 }
 
