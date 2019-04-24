@@ -15,6 +15,11 @@ module.exports = app => {
       max: 100,
       required: true,
     },
+    site_signature: {
+      type: String,
+      max: 100,
+      required: true,
+    },
     site_copyright: {
       type: String,
       max: 100,
