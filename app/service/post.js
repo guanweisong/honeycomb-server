@@ -16,7 +16,7 @@ class PostService extends Service {
         .populate('movie_actor', 'tag_name')
         .populate('movie_style', 'tag_name')
         .populate('gallery_style', 'tag_name')
-        .populate('post_cover', 'media_url')
+        .populate('post_cover', 'media_url media_url_720p media_url_360p')
         .limit(limit * 1)
         .skip((page * 1 - 1) * limit)
         .sort({created_at: -1})
