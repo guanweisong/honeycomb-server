@@ -9,7 +9,7 @@ module.exports = appInfo => {
   config.middleware = [ 'errorHandler', 'limiter' ];
 
   config.limiter = {
-    limit: 1000,
+    limit: 3600,
     unit: 'hour',
     msg: '请求过于频繁，您的IP已经被封，请1个小时后重试',
   };
