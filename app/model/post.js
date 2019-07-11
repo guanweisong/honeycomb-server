@@ -9,10 +9,12 @@ module.exports = app => {
     post_title: {
       type: String,
       max: 20,
+      required: true,
     },
     post_content: {
       type: String,
       max: 20000,
+      required: true,
     },
     post_excerpt: {
       type: String,
@@ -64,6 +66,7 @@ module.exports = app => {
     post_cover: {
       type: Schema.Types.ObjectId,
       ref: 'Media',
+      required: true,
     },
     movie_time: {
       type: Date,
