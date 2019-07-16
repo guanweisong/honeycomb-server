@@ -10,7 +10,7 @@ class MediaController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取媒体列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create() {
@@ -20,7 +20,7 @@ class MediaController extends Controller {
         this.ctx.status = 201;
       } catch (err) {
         this.ctx.logger.error(new Error(err));
-        this.ctx.throw(500, '上传媒体失败');
+        this.ctx.throw(500, err);
       } finally {
         await fs.unlink(file.filepath);
       }
@@ -34,7 +34,7 @@ class MediaController extends Controller {
       this.ctx.status = 204;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除媒体失败');
+      this.ctx.throw(500, err);
     }
   }
 }

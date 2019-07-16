@@ -76,7 +76,7 @@ class PostController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '根据分类ID读取随机文章列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create() {
@@ -87,7 +87,7 @@ class PostController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建文章失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy() {
@@ -98,7 +98,7 @@ class PostController extends Controller {
       this.ctx.status = 204;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除文章失败');
+      this.ctx.throw(500, err);
     }
   }
   async update() {
@@ -110,7 +110,7 @@ class PostController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新文章失败');
+      this.ctx.throw(500, err);
     }
   }
 }

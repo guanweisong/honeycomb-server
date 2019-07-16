@@ -13,7 +13,7 @@ class LinkController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取链接列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create() {
@@ -24,7 +24,7 @@ class LinkController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建链接失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy() {
@@ -35,7 +35,7 @@ class LinkController extends Controller {
       this.ctx.status = 204;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除链接失败');
+      this.ctx.throw(500, err);
     }
   }
   async update() {
@@ -47,7 +47,7 @@ class LinkController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新链接失败');
+      this.ctx.throw(500, err);
     }
   }
 }

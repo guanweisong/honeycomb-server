@@ -10,7 +10,7 @@ class SettingController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取设置信息失败');
+      this.ctx.throw(500, err);
     }
   }
   async update() {
@@ -21,7 +21,7 @@ class SettingController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新设置信息失败');
+      this.ctx.throw(500, err);
     }
   }
 }

@@ -13,7 +13,7 @@ class CaptchaService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '验证码系统错误');
+      this.ctx.throw(500, err);
     }
   }
 }

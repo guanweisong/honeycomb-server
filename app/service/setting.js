@@ -9,7 +9,7 @@ class SettingService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取设置信息失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(params) {
@@ -19,7 +19,7 @@ class SettingService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新设置信息失败');
+      this.ctx.throw(500, err);
     }
   }
 }

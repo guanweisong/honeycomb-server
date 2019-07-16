@@ -12,7 +12,7 @@ class TokenService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, 'TOKEN查询失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(userId = null, token = null) {
@@ -27,7 +27,7 @@ class TokenService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, 'TOKEN创建失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(userId = null, token = null) {
@@ -40,7 +40,7 @@ class TokenService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, 'TOKEN删除失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(token = null) {
@@ -52,7 +52,7 @@ class TokenService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, 'TOKEN更新失败');
+      this.ctx.throw(500, err);
     }
   }
 }

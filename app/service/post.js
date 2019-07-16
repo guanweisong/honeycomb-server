@@ -41,7 +41,7 @@ class PostService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取文章列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async indexRandomPostByCategoryId(post_category, number = 5) {
@@ -67,7 +67,7 @@ class PostService extends Service {
       return await query();
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '根据分类ID读取随机文章列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(params) {
@@ -78,7 +78,7 @@ class PostService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建文章失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(_id) {
@@ -88,7 +88,7 @@ class PostService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除文章失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(_id, params) {
@@ -98,7 +98,7 @@ class PostService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新文章失败');
+      this.ctx.throw(500, err);
     }
   }
 }

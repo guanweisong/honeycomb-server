@@ -19,7 +19,7 @@ class PageService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取页面列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(params) {
@@ -30,7 +30,7 @@ class PageService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建页面失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(_id) {
@@ -40,7 +40,7 @@ class PageService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除页面失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(_id, params) {
@@ -50,7 +50,7 @@ class PageService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新页面失败');
+      this.ctx.throw(500, err);
     }
   }
 }

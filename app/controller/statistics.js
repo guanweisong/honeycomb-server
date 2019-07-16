@@ -10,7 +10,7 @@ class StatisticsController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '获取统计信息失败');
+      this.ctx.throw(500, err);
     }
   }
 }

@@ -15,7 +15,7 @@ class UserService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取用户列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(params) {
@@ -26,7 +26,7 @@ class UserService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建用户失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(_id) {
@@ -41,7 +41,7 @@ class UserService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除用户失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(_id, params) {
@@ -58,7 +58,7 @@ class UserService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新用户失败');
+      this.ctx.throw(500, err);
     }
   }
 }

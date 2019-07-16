@@ -11,7 +11,7 @@ class CategoryController extends Controller {
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取分类列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create() {
@@ -22,7 +22,7 @@ class CategoryController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建分类失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy() {
@@ -33,7 +33,7 @@ class CategoryController extends Controller {
       this.ctx.status = 204;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除分类失败');
+      this.ctx.throw(500, err);
     }
   }
   async update() {
@@ -45,7 +45,7 @@ class CategoryController extends Controller {
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新分类失败');
+      this.ctx.throw(500, err);
     }
   }
 }

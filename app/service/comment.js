@@ -23,7 +23,7 @@ class CommentService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取评论列表失败');
+      this.ctx.throw(500, err);
     }
   }
   // 此列表用于前台关联文章显示
@@ -53,7 +53,7 @@ class CommentService extends Service {
       return data;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '根据文章ID读取评论列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(params) {
@@ -68,7 +68,7 @@ class CommentService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建评论失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(_id) {
@@ -78,7 +78,7 @@ class CommentService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除评论失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(_id, params) {
@@ -88,7 +88,7 @@ class CommentService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新评论失败');
+      this.ctx.throw(500, err);
     }
   }
 }

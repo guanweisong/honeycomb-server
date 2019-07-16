@@ -17,7 +17,7 @@ class AccessService extends Service {
       return token;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '登录系统错误');
+      this.ctx.throw(500, err);
     }
   }
   async logout(id, userToken) {
@@ -26,7 +26,7 @@ class AccessService extends Service {
       return await this.ctx.service.token.destroy(id, userToken);
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '登出系统错误');
+      this.ctx.throw(500, err);
     }
   }
   async verify(userToken) {
@@ -46,7 +46,7 @@ class AccessService extends Service {
       return userInfo;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '验证系统错误');
+      this.ctx.throw(500, err);
     }
   }
 }

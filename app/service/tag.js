@@ -15,7 +15,7 @@ class TagService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '读取标签列表失败');
+      this.ctx.throw(500, err);
     }
   }
   async create(params) {
@@ -26,7 +26,7 @@ class TagService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '创建标签失败');
+      this.ctx.throw(500, err);
     }
   }
   async destroy(_id) {
@@ -36,7 +36,7 @@ class TagService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '删除标签失败');
+      this.ctx.throw(500, err);
     }
   }
   async update(_id, params) {
@@ -46,7 +46,7 @@ class TagService extends Service {
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
-      this.ctx.throw(500, '更新标签失败');
+      this.ctx.throw(500, err);
     }
   }
 }
