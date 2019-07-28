@@ -43,7 +43,7 @@ module.exports = app => {
   router.delete('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.destroy);
   router.patch('comments', '/comments/:id', roleAuthority([ 1, 2 ]), controller.comment.update);
   // 媒体
-  router.get('media', '/media', roleAuthority([ 1, 2 ]), controller.media.index);
+  router.get('media', '/media', roleAuthority([ 1, 2, 3 ]), controller.media.index);
   router.post('media', '/media', roleAuthority([ 1, 2 ]), controller.media.create);
   router.delete('media', '/media/:id', roleAuthority([ 1, 2 ]), controller.media.destroy);
   // 权限认证

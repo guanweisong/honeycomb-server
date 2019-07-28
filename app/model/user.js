@@ -13,8 +13,8 @@ module.exports = app => {
     },
     user_level: {
       type: Number,
-      enum: [ 1, 2 ],
-      enumDesc: '1：管理员，2：编辑',
+      enum: [ 1, 2, 3 ],
+      enumDesc: '1：管理员，2：编辑，3：访客',
       required: true,
     },
     user_name: {
