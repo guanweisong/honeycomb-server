@@ -1,7 +1,7 @@
 'use strict';
 const Service = require('egg').Service;
 const COS = require('cos-nodejs-sdk-v5');
-const sharp = require('sharp');
+const resizeImg = require('resize-img');
 const fs = require('fs');
 const moment = require('moment');
 
@@ -41,6 +41,18 @@ class MediaService extends Service {
         });
       });
     };
+    this.resizeImg = (image, params) => {
+      return new Promise((resolve, reject) => {
+        resizeImg(fs.readFileSync(image), params).then(buf => {
+          resolve(buf);
+        }).catch(err => {
+          reject({
+            code: 500,
+            body: err,
+          });
+        });
+      });
+    };
   }
   async index() {
     console.log('MediaService=>index');
@@ -67,7 +79,7 @@ class MediaService extends Service {
     const keySuffix = filenameArray[filenameArray.length - 1];
     try {
       // 原文件
-      const file_original = await sharp(file.filepath).toBuffer();
+      const file_original = fs.readFileSync(file.filepath);
       const result = await this.putObject({
         Bucket: this.config.cos.bucket,
         Region: this.config.cos.region,
@@ -79,7 +91,7 @@ class MediaService extends Service {
       // 如果是图片,生成缩略图
       if (data.media_type.indexOf('image') !== -1) {
         // 720P
-        const file_720p = await sharp(file.filepath).resize({ width: 1280, height: 720, fit: 'inside' }).toBuffer();
+        const file_720p = await this.resizeImg(file.filepath, { width: 1280 });
         const result_720p = await this.putObject({
           Bucket: this.config.cos.bucket,
           Region: this.config.cos.region,
@@ -89,7 +101,7 @@ class MediaService extends Service {
         data.media_url_720p = result_720p.Location;
         data.media_key_720p = `${keyContent}_720p.${keySuffix}`;
         // 360P
-        const file_360p = await sharp(file.filepath).resize({ width: 640, height: 360, fit: 'inside' }).toBuffer();
+        const file_360p = await this.resizeImg(file.filepath, { width: 640 });
         const result_360p = await this.putObject({
           Bucket: this.config.cos.bucket,
           Region: this.config.cos.region,
