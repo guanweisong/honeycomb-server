@@ -41,8 +41,8 @@ module.exports = app => {
     },
     user_status: {
       type: Number,
-      enum: [ 0, 1 ],
-      enumDesc: '0：禁用, 1：启用',
+      enum: [ -1, 0, 1 ],
+      enumDesc: '-1：删除，0：禁用, 1：启用',
       required: true,
     },
   }, {

@@ -36,7 +36,7 @@ class UserService extends Service {
       if (item.user_level === 1) {
         this.ctx.throw(403, '无法删除管理员');
       }
-      const result = await this.ctx.model.User.remove({ _id });
+      const result = await this.ctx.model.User.update({_id}, {$set: { user_status : -1 }});
       await this.ctx.service.token.destroy(_id);
       return result;
     } catch (err) {
