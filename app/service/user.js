@@ -1,16 +1,17 @@
 'use strict';
 const Service = require('egg').Service;
+const sortValueMapping = require('../utils/sortValueMapping');
 
 class UserService extends Service {
-  async index(conditions, limit = 10, page = 1) {
+  async index(conditions, limit = 10, page = 1, sortField = 'updated_at', sortOrder = 'descend') {
     console.log('UserService=>index', conditions, limit = 10, page = 1);
     try {
       const result = {};
       result.list = await this.ctx.model.User
         .find(conditions, { user_password: 0 })
+        .sort({ [sortField]: sortValueMapping[sortOrder] })
         .limit(limit * 1)
-        .skip((page * 1 - 1) * limit)
-        .sort({ updated_at: -1 });
+        .skip((page * 1 - 1) * limit);
       result.total = await this.ctx.model.User.count(conditions);
       return result;
     } catch (err) {
