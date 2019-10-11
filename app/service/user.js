@@ -3,7 +3,7 @@ const Service = require('egg').Service;
 const sortValueMapping = require('../utils/sortValueMapping');
 
 class UserService extends Service {
-  async index(conditions, limit = 10, page = 1, sortField = 'updated_at', sortOrder = 'descend') {
+  async index(conditions, limit = 10, page = 1, sortField = 'created_at', sortOrder = 'descend') {
     console.log('UserService=>index', conditions, limit = 10, page = 1);
     try {
       const result = {};
