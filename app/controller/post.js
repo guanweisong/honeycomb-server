@@ -7,7 +7,7 @@ class PostController extends Controller {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'post_status', 'post_author', 'post_type', 'post_category' ], [ 'post_title' ]);
-    console.log('PostController=>index', conditions, params.limit, params.page);
+    console.log('PostController=>index', conditions, params.limit, params.page, params.sortField, params.sortOrder);
     try {
       if (params.tag_name) {
         const tag = await this.ctx.service.tag.index({tag_name: params.tag_name});
@@ -41,7 +41,7 @@ class PostController extends Controller {
           return;
         }
       }
-      this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page);
+      this.ctx.body = await this.ctx.service.post.index(conditions, params.limit, params.page, params.sortField, params.sortOrder);
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));

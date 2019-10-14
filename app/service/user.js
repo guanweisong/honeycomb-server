@@ -1,16 +1,17 @@
 'use strict';
 const Service = require('egg').Service;
+const sortValueMapping = require('../utils/sortValueMapping');
 
 class UserService extends Service {
-  async index(conditions, limit = 10, page = 1) {
+  async index(conditions, limit = 10, page = 1, sortField = 'created_at', sortOrder = 'descend') {
     console.log('UserService=>index', conditions, limit = 10, page = 1);
     try {
       const result = {};
       result.list = await this.ctx.model.User
         .find(conditions, { user_password: 0 })
+        .sort({ [sortField]: sortValueMapping[sortOrder] })
         .limit(limit * 1)
-        .skip((page * 1 - 1) * limit)
-        .sort({ updated_at: -1 });
+        .skip((page * 1 - 1) * limit);
       result.total = await this.ctx.model.User.count(conditions);
       return result;
     } catch (err) {
@@ -36,7 +37,7 @@ class UserService extends Service {
       if (item.user_level === 1) {
         this.ctx.throw(403, '无法删除管理员');
       }
-      const result = await this.ctx.model.User.remove({ _id });
+      const result = await this.ctx.model.User.update({_id}, {$set: { user_status : -1 }});
       await this.ctx.service.token.destroy(_id);
       return result;
     } catch (err) {

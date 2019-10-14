@@ -2,14 +2,18 @@
 const Service = require('egg').Service;
 const showdown = require('showdown');
 const converter = new showdown.Converter();
+const sortValueMapping = require('../utils/sortValueMapping');
 
 class PostService extends Service {
-  async index(conditions, limit = 10, page = 1) {
+  async index(conditions, limit = 10, page = 1, sortField = 'created_at', sortOrder = 'descend') {
     console.log('PostService=>index', conditions, limit, page);
     try {
       const result = {};
       const list = await this.ctx.model.Post
         .find(conditions)
+        .sort({ [sortField]: sortValueMapping[sortOrder] })
+        .limit(limit * 1)
+        .skip((page * 1 - 1) * limit)
         .populate('post_category', 'category_title')
         .populate('post_author', 'user_name')
         .populate('movie_director', 'tag_name')
@@ -17,9 +21,6 @@ class PostService extends Service {
         .populate('movie_style', 'tag_name')
         .populate('gallery_style', 'tag_name')
         .populate('post_cover', 'media_url media_url_720p media_url_360p')
-        .limit(limit * 1)
-        .skip((page * 1 - 1) * limit)
-        .sort({created_at: -1})
         .lean();
       for (const item of list) {
         item.post_content = converter.makeHtml(item.post_content);

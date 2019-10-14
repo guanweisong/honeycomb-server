@@ -7,12 +7,18 @@ class AccessService extends Service {
   async login(conditions) {
     console.log('AccessService=>login');
     try {
-      const result = await this.ctx.model.User.find(conditions, {user_password: 0});
+      const result = await this.ctx.model.User.find(conditions, { user_password: 0 });
       if (result.length === 0) {
         this.ctx.throw(401, '用户名或密码错误');
       }
+      if (result[0].user_status === 0) {
+        this.ctx.throw(401, '该用户已被禁用，请联系管理员');
+      }
+      if (result[0].user_status === -1) {
+        this.ctx.throw(401, '该用户已被删除，请联系管理员');
+      }
       const userId = result[0]._id;
-      const token = this.app.jwt.sign({id: userId, created_at: Date.now()}, this.config.jwt.secret);
+      const token = this.app.jwt.sign({ id: userId, created_at: Date.now() }, this.config.jwt.secret);
       await this.ctx.service.token.create(userId, token);
       return token;
     } catch (err) {
@@ -41,7 +47,7 @@ class AccessService extends Service {
         await this.ctx.service.token.detory(userToken);
       }
       const decodedToken = this.app.jwt.verify(userToken, this.config.jwt.secret);
-      const userInfo = this.ctx.service.user.index({_id: decodedToken.id});
+      const userInfo = this.ctx.service.user.index({ _id: decodedToken.id });
       await this.ctx.service.token.update(userToken);
       return userInfo;
     } catch (err) {

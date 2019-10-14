@@ -7,9 +7,9 @@ class UserController extends Controller {
     const params = this.ctx.query;
     const paramsArray = this.ctx.queries;
     const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ 'user_level', 'user_status', 'user_name', 'user_email' ], [ 'user_name', 'user_email' ]);
-    console.log('UserController=>index', conditions, params.limit, params.page);
+    console.log('UserController=>index', conditions, params.limit, params.page, params.sortField, params.sortOrder);
     try {
-      this.ctx.body = await this.ctx.service.user.index(conditions, params.limit, params.page);
+      this.ctx.body = await this.ctx.service.user.index(conditions, params.limit, params.page, params.sortField, params.sortOrder);
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
