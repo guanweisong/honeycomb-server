@@ -9,12 +9,12 @@ module.exports = app => {
     post_title: {
       type: String,
       max: 20,
-      required: true,
+      required() { return [ 0, 1, 2 ].includes(this.post_type); },
     },
     post_content: {
       type: String,
       max: 20000,
-      required: true,
+      required() { return [ 0, 1, 2 ].includes(this.post_type); },
     },
     post_excerpt: {
       type: String,
@@ -40,7 +40,7 @@ module.exports = app => {
     },
     post_status: {
       type: Number,
-      enum: [ 0, 1, 2],
+      enum: [ 0, 1, 2 ],
       enumDesc: '0：已发布, 1：草稿, 2: 待审核',
       default: 1,
       required: true,
@@ -58,15 +58,15 @@ module.exports = app => {
     },
     post_type: {
       type: Number,
-      enum: [ 0, 1, 2 ],
-      enumDesc: '0：文章, 1：电影, 2: 画廊',
-      default: 1,
+      enum: [ 0, 1, 2, 3 ],
+      enumDesc: '0：文章, 1：电影, 2: 画廊, 3: 引用',
+      default: 0,
       required: true,
     },
     post_cover: {
       type: Schema.Types.ObjectId,
       ref: 'Media',
-      required: true,
+      required() { return [ 0, 1, 2 ].includes(this.post_type); },
     },
     movie_time: {
       type: Date,
@@ -106,6 +106,16 @@ module.exports = app => {
         ref: 'Tag',
       },
     ],
+    quote_author: {
+      type: String,
+      max: 50,
+      required() { return this.post_type === 3; },
+    },
+    quote_content: {
+      type: String,
+      max: 500,
+      required() { return this.post_type === 3; },
+    },
   }, {
     versionKey: false,
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
