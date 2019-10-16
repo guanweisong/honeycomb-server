@@ -50,7 +50,7 @@ class PostService extends Service {
     const query = () => {
       return new Promise((resolve, reject) => {
         var filter = { post_category };
-        var fields = { post_title: 1 };
+        var fields = { post_title: 1, quote_content: 1 };
         var options = { limit: number };
         this.ctx.model.Post.findRandom(filter, fields, options, function(err, data) {
           if (err) {
