@@ -25,6 +25,14 @@ module.exports = app => {
       max: 100,
       required: true,
     },
+    site_record_no: {
+      type: String,
+      max: 100,
+    },
+    site_record_url: {
+      type: String,
+      max: 100,
+    }
   });
 
   return mongoose.model('Setting', SettingSchema);
