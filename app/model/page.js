@@ -31,7 +31,7 @@ module.exports = app => {
     page_status: {
       type: Number,
       enum: [ 0, 1 ],
-      enumDesc: '0：禁用, 1：启用',
+      enumDesc: '0：已发布, 1：草稿',
       required: true,
     },
     page_views: {
