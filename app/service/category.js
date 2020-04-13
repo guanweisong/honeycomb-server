@@ -2,7 +2,7 @@
 const Service = require('egg').Service;
 
 class CategoryService extends Service {
-  async index() {
+  async index(id) {
     console.log('CategoryService=>index');
     try {
       const result = await this.ctx.model.Category
@@ -10,7 +10,7 @@ class CategoryService extends Service {
         .lean()
         .sort({updated_at: -1});
       const data = {
-        list: this.sonsTree(result, '0'),
+        list: this.sonsTree(result, id || '0'),
         total: await this.ctx.model.Category.count()
       };
       return data;
