@@ -2,16 +2,17 @@
 const Service = require('egg').Service;
 
 class CategoryService extends Service {
-  async index(id) {
+  async index() {
     console.log('CategoryService=>index');
     try {
       const result = await this.ctx.model.Category
         .find({})
         .lean()
         .sort({updated_at: -1});
-      const data = {};
-      data.son = this.sonsTree(result, id || '0');
-      data.family = this.familyTree(result, id || '0');
+      const data = {
+        list: this.sonsTree(result, '0'),
+        total: await this.ctx.model.Category.count()
+      };
       return data;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -55,20 +56,6 @@ class CategoryService extends Service {
       this.ctx.logger.error(new Error(err));
       this.ctx.throw(500, err);
     }
-  }
-  // 家族树，根据子节点寻找家族节点
-  familyTree(arr, pid) {
-    const temp = [];
-    const forFn = (arr, pid) => {
-      for (const value of arr) {
-        if (value._id == pid) {
-          temp.push(value);
-          forFn(arr, value.category_parent);
-        }
-      }
-    };
-    forFn(arr, pid);
-    return temp;
   }
   // 子孙树，获取某个ID下的分类
   sonsTree(arr, id) {

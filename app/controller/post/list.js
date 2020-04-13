@@ -13,7 +13,7 @@ class PostListController extends Controller {
       if (params.category_id) {
         const category = await this.ctx.service.category.index(params.category_id);
         $or.push({ post_category: params.category_id });
-        category.son.forEach(item => {
+        category.list.forEach(item => {
           $or.push({ post_category: item._id });
         });
       }

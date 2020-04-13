@@ -56,4 +56,7 @@ module.exports = app => {
   router.put('settings', '/settings', roleAuthority([ 1 ]), controller.setting.update);
   // 统计
   router.get('statistics', '/statistics', controller.statistics.index);
+  // 菜单
+  router.get('menus', '/menus', controller.menu.index);
+  router.patch('menus', '/menus', roleAuthority([ 1 ]), controller.menu.update);
 };
