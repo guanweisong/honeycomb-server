@@ -1,21 +1,24 @@
 'use strict';
 const Service = require('egg').Service;
+const showdown = require('showdown');
+const converter = new showdown.Converter();
 
-class PageService extends Service {
-  async index(conditions, limit = 10, page = 1, exception = { page_content: 0 }) {
-    console.log('PageService=>index');
-    if (typeof conditions._id !== 'undefined') {
-      exception = {};
-    }
+class PageDetailService extends Service {
+  async index(id) {
+    console.log('PageDetailService=>index');
     try {
-      const result = {};
-      result.list = await this.ctx.model.Page
-        .find(conditions, exception)
+      const result = await this.ctx.model.Page
+        .findOne({_id: id})
         .populate('page_author', 'user_name')
-        .limit(limit * 1)
-        .skip((page * 1 - 1) * limit)
-        .sort({updated_at: -1});
-      result.total = await this.ctx.model.Page.count(conditions);
+        .lean();
+      result.page_content = converter.makeHtml(result.page_content);
+      // 访问量+1
+      this.ctx.model.Page.update({ _id : id }, {$inc: {page_views: 1}}, {upsert: true}, (err, data) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(data);
+      });
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -23,7 +26,7 @@ class PageService extends Service {
     }
   }
   async create(params) {
-    console.log('PageService=>create');
+    console.log('PageDetailService=>create');
     const model = new this.ctx.model.Page({...params, created_at: Date.now()});
     try {
       const result = await model.save();
@@ -34,7 +37,7 @@ class PageService extends Service {
     }
   }
   async destroy(_id) {
-    console.log('PageService=>destroy', _id);
+    console.log('PageDetailService=>destroy', _id);
     try {
       const result = await this.ctx.model.Page.remove({_id});
       return result;
@@ -44,7 +47,7 @@ class PageService extends Service {
     }
   }
   async update(_id, params) {
-    console.log('PageService=>update', _id, params);
+    console.log('PageDetailService=>update', _id, params);
     try {
       const result = await this.ctx.model.Page.update({_id}, {$set: params});
       return result;
@@ -55,4 +58,4 @@ class PageService extends Service {
   }
 }
 
-module.exports = PageService;
+module.exports = PageDetailService;

@@ -4,12 +4,10 @@ const Controller = require('egg').Controller;
 
 class PageController extends Controller {
   async index() {
-    const params = this.ctx.query;
-    const paramsArray = this.ctx.queries;
-    const conditions = this.ctx.helper.getFindConditionsByQueries(paramsArray, [ '_id', 'page_status' ], [ 'page_title' ]);
-    console.log('PageController=>index', conditions, params.limit, params.page);
+    const id = this.ctx.params.id;
+    console.log('PageController=>index');
     try {
-      this.ctx.body = await this.ctx.service.page.index(conditions, params.limit, params.page);
+      this.ctx.body = await this.ctx.service.page.detail.index(id);
       this.ctx.status = 200;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -20,7 +18,7 @@ class PageController extends Controller {
     const params = this.ctx.request.body;
     console.log('PageController=>create', params);
     try {
-      this.ctx.body = await this.ctx.service.page.create(params);
+      this.ctx.body = await this.ctx.service.page.detail.create(params);
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -31,7 +29,7 @@ class PageController extends Controller {
     const id = this.ctx.params.id;
     console.log('PageController=>destroy', id);
     try {
-      this.ctx.body = await this.ctx.service.page.destroy(id);
+      this.ctx.body = await this.ctx.service.page.detail.destroy(id);
       this.ctx.status = 204;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -43,7 +41,7 @@ class PageController extends Controller {
     const params = this.ctx.request.body;
     console.log('PageController=>update', id, params);
     try {
-      this.ctx.body = await this.ctx.service.page.update(id, params);
+      this.ctx.body = await this.ctx.service.page.detail.update(id, params);
       this.ctx.status = 201;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
