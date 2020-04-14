@@ -16,6 +16,8 @@ class MenuService extends Service {
           categoryList.list.forEach(n => {
             if (m._id.toString() === n._id.toString()) {
               m.category_title = n.category_title;
+              m.category_title_en = n.category_title_en;
+              m.category_parent = n.category_parent;
             }
           });
         }
