@@ -10,7 +10,7 @@ class MenuService extends Service {
         .sort({ power: 1 })
         .lean();
       const categoryList = await this.ctx.service.category.index();
-      const pageList = await this.ctx.service.page.index({}, 9999, 1);
+      const pageList = await this.ctx.service.page.list.index({}, 9999, 1);
       list.forEach(m => {
         if (m.type === 'category') {
           categoryList.list.forEach(n => {
