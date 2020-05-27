@@ -4,19 +4,24 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
 
-  const PageSchema = new Schema({
-    page_title: {
-      type: String,
-      max: 20,
-    },
-    page_content: {
-      type: String,
-      max: 20000,
-    },
-    page_author: {
-      required: true,
+  const MenuSchema = new Schema({
+    _id: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+    },
+    type: {
+      type: String,
+      enum: [ 'category', 'page' ],
+      enumDesc: 'category:分类, page:页面',
+    },
+    parent: {
+      type: String,
+      max: 100,
+      required: true,
+    },
+    power: {
+      type: Number,
+      max: 100,
+      required: true,
     },
     created_at: {
       type: Date,
@@ -28,20 +33,10 @@ module.exports = app => {
       required: true,
       default: Date.now(),
     },
-    page_status: {
-      type: Number,
-      enum: [ 0, 1 ],
-      enumDesc: '0：已发布, 1：草稿',
-      required: true,
-    },
-    page_views: {
-      type: Number,
-      default: 0,
-    },
   }, {
     versionKey: false,
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   });
 
-  return mongoose.model('Page', PageSchema);
+  return mongoose.model('Menu', MenuSchema);
 };

@@ -19,18 +19,21 @@ module.exports = app => {
   router.post('categories', '/categories', roleAuthority([ 1, 2 ]), controller.category.create);
   router.delete('categories', '/categories/:id', roleAuthority([ 1, 2 ]), controller.category.destroy);
   router.patch('categories', '/categories/:id', roleAuthority([ 1, 2 ]), controller.category.update);
-  // 页面
-  router.get('pages', '/pages', controller.page.index);
-  router.post('pages', '/pages', roleAuthority([ 1 ]), controller.page.create);
-  router.delete('pages', '/pages/:id', roleAuthority([ 1 ]), controller.page.destroy);
-  router.patch('pages', '/pages/:id', roleAuthority([ 1 ]), controller.page.update);
-  // 文章
-  router.get('posts', '/posts', controller.post.index);
-  router.get('posts', '/posts/indexRandomPostByCategoryId', controller.post.indexRandomPostByCategoryId);
-  router.get('posts', '/posts/indexPostByCategoryId', controller.post.indexPostByCategoryId);
-  router.post('posts', '/posts', roleAuthority([ 1, 2 ]), controller.post.create);
-  router.delete('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.destroy);
-  router.patch('posts', '/posts/:id', roleAuthority([ 1, 2 ]), controller.post.update);
+  // 页面列表
+  router.get('pages', '/pages/list', controller.page.list.index);
+  // 页面详情
+  router.get('pages', '/pages/detail/:id', controller.page.detail.index);
+  router.post('pages', '/pages/detail', roleAuthority([ 1 ]), controller.page.detail.create);
+  router.delete('pages', '/pages/detail/:id', roleAuthority([ 1 ]), controller.page.detail.destroy);
+  router.patch('pages', '/pages/detail/:id', roleAuthority([ 1 ]), controller.page.detail.update);
+  // 文章列表
+  router.get('posts', '/posts/list', controller.post.list.index);
+  router.get('posts', '/posts/list/random', controller.post.list.indexRandom);
+  // 文章详情
+  router.get('posts', '/posts/detail/:id', controller.post.detail.index);
+  router.post('posts', '/posts/detail', roleAuthority([ 1, 2 ]), controller.post.detail.create);
+  router.delete('posts', '/posts/detail/:id', roleAuthority([ 1, 2 ]), controller.post.detail.destroy);
+  router.patch('posts', '/posts/detail/:id', roleAuthority([ 1, 2 ]), controller.post.detail.update);
   // 标签
   router.get('tags', '/tags', controller.tag.index);
   router.post('tags', '/tags', roleAuthority([ 1, 2 ]), controller.tag.create);
@@ -55,4 +58,7 @@ module.exports = app => {
   router.put('settings', '/settings', roleAuthority([ 1 ]), controller.setting.update);
   // 统计
   router.get('statistics', '/statistics', controller.statistics.index);
+  // 菜单
+  router.get('menus', '/menus', controller.menu.index);
+  router.patch('menus', '/menus', roleAuthority([ 1 ]), controller.menu.update);
 };
