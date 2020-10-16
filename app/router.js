@@ -61,4 +61,7 @@ module.exports = app => {
   // 菜单
   router.get('menus', '/menus', controller.menu.index);
   router.patch('menus', '/menus', roleAuthority([ 1 ]), controller.menu.update);
+  // 浏览量
+  router.get('views', '/views/:type/:id', controller.view.index);
+  router.patch('views', '/views/:type/:id', controller.view.update);
 };

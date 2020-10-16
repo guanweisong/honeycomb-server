@@ -17,13 +17,6 @@ class PostService extends Service {
         .populate('post_cover', 'media_url media_url_720p media_url_360p')
         .lean();
       result.post_content = converter.makeHtml(result.post_content);
-      // 访问量+1
-      this.ctx.model.Post.update({ _id : id }, {$inc: {post_views: 1}}, {upsert: true}, (err, data) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(data);
-      });
       return result;
     } catch (e) {
       this.ctx.logger.error(new Error(err));
@@ -55,6 +48,17 @@ class PostService extends Service {
     console.log('PostService=>update', _id, params);
     try {
       const result = await this.ctx.model.Post.update({_id}, {$set: params});
+      return result;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, err);
+    }
+  }
+  async updateViews(id) {
+    console.log('PostService=>updateViews', id);
+    // 访问量+1
+    try {
+      const result = this.ctx.model.Post.update({ _id : id }, {$inc: {post_views: 1}}, {upsert: true});
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));

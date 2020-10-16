@@ -12,13 +12,6 @@ class PageDetailService extends Service {
         .populate('page_author', 'user_name')
         .lean();
       result.page_content = converter.makeHtml(result.page_content);
-      // 访问量+1
-      this.ctx.model.Page.update({ _id : id }, {$inc: {page_views: 1}}, {upsert: true}, (err, data) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(data);
-      });
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
@@ -50,6 +43,17 @@ class PageDetailService extends Service {
     console.log('PageDetailService=>update', _id, params);
     try {
       const result = await this.ctx.model.Page.update({_id}, {$set: params});
+      return result;
+    } catch (err) {
+      this.ctx.logger.error(new Error(err));
+      this.ctx.throw(500, err);
+    }
+  }
+  async updateViews(id) {
+    console.log('PageDetailService=>updateViews', id);
+    // 访问量+1
+    try {
+      const result = this.ctx.model.Page.update({ _id : id }, {$inc: {post_views: 1}}, {upsert: true});
       return result;
     } catch (err) {
       this.ctx.logger.error(new Error(err));
