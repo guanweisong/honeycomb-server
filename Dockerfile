@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:14.8.0 AS Builder
+FROM mhart/alpine-node AS Builder
 
 # 设置工作目录
 WORKDIR /usr/src/node-app
@@ -7,6 +7,8 @@ COPY package.json yarn.lock /usr/src/node-app/
 
 # 安装依赖
 RUN yarn
+
+RUN chmod 777 -R /usr/local/share/.cache/yarn
 
 COPY . .
 
