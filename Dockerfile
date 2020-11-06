@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:12 AS Builder
+FROM mhart/alpine-node:14.8.0 AS Builder
 
 # 设置工作目录
 WORKDIR /usr/src/node-app
